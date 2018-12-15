@@ -8,14 +8,18 @@ function export_gcal_to_gsheet(){
 //
 // This code retrieves events between 2 dates for the specified calendar.
 // It logs the results in the current spreadsheet starting at cell A2 listing the events,
-// dates/times, etc and even calculates event duration (via creating formulas in the spreadsheet) and formats the values.
+// dates/times, etc and even calculates event duration (via creating formulas in the 
+// spreadsheet) and formats the values.
 //
-// I do re-write the spreadsheet header in Row 1 with every run, as I found it faster to delete then entire sheet content,
-// change my parameters, and re-run my exports versus trying to save the header row manually...so be sure if you change
-// any code, you keep the header in agreement for readability!
+// I do re-write the spreadsheet header in Row 1 with every run, as I found it faster to 
+// delete then entire sheet content, change my parameters, and re-run my exports versus 
+// trying to save the header row manually...so be sure if you change any code, you keep 
+// the header in agreement for readability!
 //
-// 1. Please modify the value for mycal to be YOUR calendar email address or one visible on your MY Calendars section of your Google Calendar
-// 2. Please modify the values for events to be the date/time range you want and any search parameters to find or omit calendar entires
+// 1. Please modify the value for mycal to be YOUR calendar email address or one visible 
+// on your MY Calendars section of your Google Calendar
+// 2. Please modify the values for events to be the date/time range you want and any search
+// parameters to find or omit calendar entires
 // Note: Events can be easily filtered out/deleted once exported from the calendar
 // 
 // Reference Websites:
@@ -47,10 +51,12 @@ var sheet = SpreadsheetApp.getActiveSheet();
 // - Note people could have added extra columns on the data though that would be lost
 // sheet.clearContents();  
 
-// Create a header record on the current spreadsheet in cells A1:N1 - Match the number of entries in the "header=" to the last parameter
+// Create a header record on the current spreadsheet in cells A1:N1 - Match the number of entries
+// in the "header=" to the last parameter
 // of the getRange entry below
-var header = [["Calendar Address", "Event Title", "Event Description", "Event Location", "Event Start", "Event End", "Calculated Duration",
- "Visibility", "Date Created", "Last Updated", "MyStatus", "Created By", "All Day Event", "Recurring Event"]]
+var header = [["Calendar Address", "Event Title", "Event Description", "Event Location", 
+ "Event Start", "Event End", "Calculated Duration", "Visibility", "Date Created", 
+ "Last Updated", "MyStatus", "Created By", "All Day Event", "Recurring Event"]]
 var range = sheet.getRange(1,1,1,14);
 range.setValues(header);
 
@@ -59,8 +65,10 @@ range.setValues(header);
 for (var i=0;i<events.length;i++) {
 var row=i+2;
 var myformula_placeholder = '';
-// Matching the "header=" entry above, this is the detailed row entry "details=", and must match the number of entries of the GetRange entry below
-// NOTE: I've had problems with the getVisibility for some older events not having a value, so I've had do add in some NULL text to make sure it does not error
+// Matching the "header=" entry above, this is the detailed row entry "details=", and must match
+// the number of entries of the GetRange entry below
+// NOTE: I've had problems with the getVisibility for some older events not having a value, 
+// so I've had do add in some NULL text to make sure it does not error
 var details=[[mycal,events[i].getTitle(), events[i].getDescription(), events[i].getLocation(), events[i].getStartTime(), events[i].getEndTime(), 
  myformula_placeholder, ('' + events[i].getVisibility()), events[i].getDateCreated(), events[i].getLastUpdated(), events[i].getMyStatus(), 
  events[i].getCreators(), events[i].isAllDayEvent(), events[i].isRecurringEvent()]];
@@ -76,7 +84,9 @@ cell.setNumberFormat('.00');
 }
 }
 function onOpen() {
-  Browser.msgBox('App Instructions - Please Read This Message', '1) Click Tools then Script Editor\\n2) Read/update the code with your desired values. \
+  Browser.msgBox('App Instructions - Please Read This Message', \
+  '1) Click Tools then Script Editor \
+  \\n2) Read/update the code with your desired values. \
   \\n3) Then when ready click Run export_gcal_to_gsheet from the script editor.', Browser.Buttons.OK);
 
 }
